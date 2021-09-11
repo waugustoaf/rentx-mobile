@@ -1,3 +1,6 @@
+import React from 'react';
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 import {
   Archivo_400Regular,
   Archivo_500Medium,
@@ -6,11 +9,11 @@ import {
 import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
-import React from 'react';
 import { SafeAreaView } from 'react-native';
-import { CarDetails } from './screens/CarDetails';
-import { Home } from './screens/Home';
+import 'react-native-gesture-handler';
+import { Routes } from './routes';
 import { CustomThemeProvider } from './styles/theme';
+import { HooksProvider } from './hooks';
 
 export const App = () => {
   const [isFontsLoaded] = useFonts({
@@ -32,7 +35,9 @@ export const App = () => {
       }}
     >
       <CustomThemeProvider>
-        <CarDetails />
+        <HooksProvider>
+          <Routes />
+        </HooksProvider>
       </CustomThemeProvider>
     </SafeAreaView>
   );

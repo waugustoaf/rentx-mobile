@@ -1,26 +1,22 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StatusBar } from 'react-native';
-import { CarList, Container, Header, HeaderContent, TotalCars } from './styles';
-import Logo from '../../assets/logo.svg';
 import { RFValue } from 'react-native-responsive-fontsize';
+import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
+import { Load } from '../../components/Load';
 import { ICarDTO } from '../../dtos/ICarDTO';
+import { useCars } from '../../hooks/cars';
+import { CarList, Container, Header, HeaderContent, TotalCars } from './styles';
 
 export const Home = () => {
-  const cars = [
-    {
-      id: '1',
-      brand: 'Audi',
-      name: 'RS 5 Coupé',
-      rent: {
-        period: 'At day',
-        price: 'R$ 120',
-      },
-      type: 'electric',
-      thumbnail:
-        'https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/ff5a98a2-fd1e-4585-84a9-d91a5947d7d0/61f4cdfb-46ba-4ae9-8c08-3414e91094af.png',
-    },
-  ] as ICarDTO[];
+  const navigation = useNavigation();
+
+  const { cars, loading } = useCars();
+
+  const handleNavigateCarDetails = (car: ICarDTO) => {
+    navigation.navigate('CarDetails', car);
+  };
 
   return (
     <Container>
@@ -36,11 +32,17 @@ export const Home = () => {
         </HeaderContent>
       </Header>
 
-      <CarList
-        data={cars}
-        renderItem={({ item: car }) => <Car car={car} />}
-        keyExtractor={item => item.id}
-      />
+      {loading ? (
+        <Load />
+      ) : (
+        <CarList
+          data={cars}
+          renderItem={({ item: car }) => (
+            <Car onPress={() => handleNavigateCarDetails(car)} car={car} />
+          )}
+          keyExtractor={item => item.id}
+        />
+      )}
     </Container>
   );
 };

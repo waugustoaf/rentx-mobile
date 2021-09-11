@@ -8,6 +8,7 @@ import forceSvg from '../../assets/force.svg';
 import fuelSvg from '../../assets/fuel.svg';
 import exchangeSvg from '../../assets/exchange.svg';
 import peopleSvg from '../../assets/people.svg';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   Accessories,
   CarImages,
@@ -25,53 +26,75 @@ import {
   Footer,
 } from './styles';
 import { Button } from '../../components/Button';
+import { ICarDTO } from '../../dtos/ICarDTO';
+import { IAccessoryDTO, IAccessoryTypes } from '../../dtos/IAccessoryDTO';
+
+const svg = {
+  speed: speedSvg,
+  acceleration: accelerationSvg,
+  turning_diameter: forceSvg,
+  gasoline_motor: fuelSvg,
+  electric_motor: fuelSvg,
+  exchange: exchangeSvg,
+  seats: peopleSvg,
+};
 
 export const CarDetails = () => {
-  const carsImages = [
-    'https://platform.cstatic-images.com/xlarge/in/v2/stock_photos/ff5a98a2-fd1e-4585-84a9-d91a5947d7d0/61f4cdfb-46ba-4ae9-8c08-3414e91094af.png',
-  ];
+  const navigation = useNavigation();
+  const route = useRoute();
+  const car: ICarDTO = route.params as ICarDTO;
+
+  const handleConfirmRental = () => {
+    navigation.navigate('Scheduling', car);
+  };
+
+  const handleGoBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  };
 
   return (
     <Container>
       <Header>
-        <BackButton />
+        <BackButton onPress={handleGoBack} />
       </Header>
 
       <CarImages>
-        <ImageSlider imagesUrl={carsImages} />
+        <ImageSlider imagesUrl={[car.thumbnail]} />
       </CarImages>
 
       <Content>
         <Details>
           <Description>
-            <Brand>Audi</Brand>
-            <Name>RS 5 Coupé</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Description>
 
           <Rent>
-            <Period>Ao dia</Period>
-            <Price>R$ 580</Price>
+            <Period>{car.rent.period}</Period>
+            <Price>{car.rent.price}</Price>
           </Rent>
         </Details>
 
         <Accessories>
-          <Accessory icon={speedSvg} name='380Km/h' />
-          <Accessory icon={accelerationSvg} name='3.2s' />
-          <Accessory icon={forceSvg} name='840 HP' />
-          <Accessory icon={fuelSvg} name='Elétrico' />
-          <Accessory icon={exchangeSvg} name='Auto' />
-          <Accessory icon={peopleSvg} name='2 pessoas' />
+          {car.accessories.map(accessory => (
+            <Accessory
+              key={accessory.type}
+              icon={svg[accessory.type]}
+              name={accessory.name}
+            />
+          ))}
         </Accessories>
 
-        <About>
-          Este é o automóvel desportivo. Surgiu do lendário touro de lide
-          indultado na praça Real Maestranza de Sevilla. É um belíssimo carro
-          para quem gosta de acelerar.
-        </About>
+        <About>{car.about}</About>
       </Content>
 
       <Footer>
-        <Button title='Escolher período de aluguel' />
+        <Button
+          title='Escolher período de aluguel'
+          onPress={handleConfirmRental}
+        />
       </Footer>
     </Container>
   );

@@ -14,16 +14,18 @@ import {
   Rent,
   Type,
 } from './styles';
+import { RectButtonProps } from 'react-native-gesture-handler';
 
-interface CarProps {
+interface CarProps extends RectButtonProps {
   car: ICarDTO;
 }
 
 export const Car = ({
   car: { brand, name, rent, type, thumbnail },
+  ...rest
 }: CarProps) => {
   return (
-    <Container>
+    <Container {...rest}>
       <Details>
         <Brand>{brand}</Brand>
         <Name>{name}</Name>

@@ -1,11 +1,16 @@
+import { IAccessoryDTO } from './IAccessoryDTO';
+
 export interface ICarDTO {
   id: string;
   brand: string;
   name: string;
+  about: string;
   rent: {
     period: string;
-    price: string;
+    price: number;
   };
   thumbnail: string;
-  type: 'fuel' | 'electric';
+  fuel_type: 'gasoline_motor' | 'electric';
+  accessories: IAccessoryDTO[];
+  photos: string[];
 }
