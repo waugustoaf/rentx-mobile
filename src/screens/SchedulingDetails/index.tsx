@@ -98,10 +98,11 @@ export const SchedulingDetails = () => {
           schedulesByCar.unavailable_dates.includes(day),
       ).length > 0
     ) {
-      return Alert.alert(
+      Alert.alert(
         'Há um problema',
         'Já existe locações desse veículo nessa data',
       );
+      return navigation.navigate('Home');
     }
 
     const alreadyExistentData = !!schedulesByCar.unavailable_dates

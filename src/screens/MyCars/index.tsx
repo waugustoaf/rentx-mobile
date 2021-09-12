@@ -68,7 +68,9 @@ export const MyCars = () => {
         <Content>
           <Appointments>
             <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
-            <AppointmentsQuantity>{schedules.length}</AppointmentsQuantity>
+            <AppointmentsQuantity>
+              {String(schedules.length).padStart(2, '0')}
+            </AppointmentsQuantity>
           </Appointments>
 
           {schedules.length === 0 ? (
