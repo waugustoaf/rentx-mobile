@@ -5,11 +5,16 @@ interface ButtonProps {
   title: string;
   color?: string;
   onPress?: () => void;
+  enabled?: boolean;
 }
 
-export const Button = ({ title, ...rest }: ButtonProps) => {
+export const Button = ({ title, enabled = true, ...rest }: ButtonProps) => {
   return (
-    <Container {...rest}>
+    <Container
+      enabled={enabled}
+      {...rest}
+      style={{ opacity: enabled ? 1 : 0.5 }}
+    >
       <Title>{title}</Title>
     </Container>
   );

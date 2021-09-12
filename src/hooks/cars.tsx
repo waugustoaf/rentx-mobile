@@ -37,6 +37,8 @@ export const CarsProvider: React.FC = ({ children }) => {
         );
 
         if (
+          carSchedules &&
+          carSchedules.unavailable_dates &&
           carSchedules.unavailable_dates.includes(
             format(new Date(), 'yyyy-MM-dd'),
           )

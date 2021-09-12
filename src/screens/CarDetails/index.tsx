@@ -27,7 +27,6 @@ import {
 } from './styles';
 import { Button } from '../../components/Button';
 import { ICarDTO } from '../../dtos/ICarDTO';
-import { IAccessoryDTO, IAccessoryTypes } from '../../dtos/IAccessoryDTO';
 
 const svg = {
   speed: speedSvg,
@@ -35,6 +34,7 @@ const svg = {
   turning_diameter: forceSvg,
   gasoline_motor: fuelSvg,
   electric_motor: fuelSvg,
+  hybrid_motor: fuelSvg,
   exchange: exchangeSvg,
   seats: peopleSvg,
 };

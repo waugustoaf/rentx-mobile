@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
 import {
   addHours,
   differenceInDays,
@@ -22,6 +23,7 @@ import { Button } from '../../components/Button';
 import { ImageSlider } from '../../components/ImageSlider';
 import { Load } from '../../components/Load';
 import { ICarDTO } from '../../dtos/ICarDTO';
+import { IScheduleByUserDTO } from '../../dtos/IScheduleByUserDTO';
 import { useCars } from '../../hooks/cars';
 import { api } from '../../services/api';
 import { getPlatformDate } from '../../utils/getPlatformDate';
@@ -63,6 +65,7 @@ const svg = {
   turning_diameter: forceSvg,
   gasoline_motor: fuelSvg,
   electric_motor: fuelSvg,
+  hybrid_motor: fuelSvg,
   exchange: exchangeSvg,
   seats: peopleSvg,
 };
@@ -88,8 +91,12 @@ export const SchedulingDetails = () => {
     const schedulesByCar = (await api.get(`/schedules_bycars/${car.id}`)).data;
 
     if (
-      eachDay.filter(day => schedulesByCar.unavailable_dates.includes(day))
-        .length > 0
+      eachDay.filter(
+        day =>
+          schedulesByCar &&
+          schedulesByCar.unavailable_dates &&
+          schedulesByCar.unavailable_dates.includes(day),
+      ).length > 0
     ) {
       return Alert.alert(
         'Há um problema',
@@ -97,26 +104,45 @@ export const SchedulingDetails = () => {
       );
     }
 
-    const unavailableDates = [...schedulesByCar.unavailable_dates, ...eachDay];
+    const alreadyExistentData = !!schedulesByCar.unavailable_dates
+      ? schedulesByCar.unavailable_dates
+      : [];
 
-    api
-      .put(`/schedules_bycars/${car.id}`, {
-        id: car.id,
-        unavailable_dates: unavailableDates,
-      })
+    const unavailableDates = [...alreadyExistentData, ...eachDay];
+
+    const newSchedule: IScheduleByUserDTO = {
+      car,
+      startDate: format(getPlatformDate(new Date(startDate)), 'dd/MM/yyyy'),
+      endDate: format(getPlatformDate(new Date(endDate)), 'dd/MM/yyyy'),
+      id: new Date().getTime(),
+      user_id: 1,
+    };
+
+    const scheduleUsers = api.post('/schedules_byuser', newSchedule);
+    const scheduleCars = api.put(`/schedules_bycars/${car.id}`, {
+      id: car.id,
+      unavailable_dates: unavailableDates,
+    });
+
+    axios
+      .all([scheduleUsers, scheduleCars])
       .then(() => {
         setLoading(false);
-        if (new Date(startDate).getDate() === new Date().getDate()) {
+        if (
+          new Date(addHours(startDate, 3)).getDate() === new Date().getDate()
+        ) {
           rentCar(car.id);
         }
         navigation.navigate('SchedulingComplete');
       })
-      .catch(err =>
+      .catch(err => {
+        console.log(err);
         Alert.alert(
           'Houve um erro!',
           'Não foi possível realizar seu agendamento.',
-        ),
-      );
+        );
+        navigation.navigate('Home');
+      });
   };
 
   const handleNavigateToCalendar = () => {
