@@ -1,3 +1,4 @@
+import { RectButton } from 'react-native-gesture-handler';
 import {
   getBottomSpace,
   getStatusBarHeight,
@@ -86,19 +87,19 @@ export const Accessories = styled.View`
   margin-top: 16px;
 `;
 
-export const RentalPeriod = styled.View`
+export const RentalPeriod = styled(RectButton)`
   width: 100%;
 
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 
-  margin-top: 40px;
+  margin-top: 24px;
 
   border-bottom-width: 1px;
   border-bottom-color: ${props => props.theme.colors.line};
 
-  padding-bottom: 16px;
+  padding: 16px 0;
 `;
 
 export const CalendarIcon = styled.View`

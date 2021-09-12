@@ -135,7 +135,7 @@
       "about": "Este é automóvel desportivo. Surgiu do lendário touro de lide indultado na praça Real Maestranza de Sevilla. É um belíssimo carro para quem gosta de acelerar.",
       "rent": {
         "period": "Ao dia",
-        "price": 120
+        "price": 580
       },
       "fuel_type": "electric_motor",
       "thumbnail": "https://storage.googleapis.com/golden-wind/ignite/react-native/thumbnails/4.png",
@@ -261,7 +261,12 @@
   "schedules_bycars": [
     {
       "id": "535e8de8-721b-4bac-8b72-7d29be7da467",
-      "unavailable_dates": []
+      "unavailable_dates": [
+        "2021-09-11",
+        "2021-09-12",
+        "2021-09-13",
+        "2021-09-14"
+      ]
     },
     {
       "id": "ffb71f55-818a-48b1-b7d2-2efc406ede25",

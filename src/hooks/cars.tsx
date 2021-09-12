@@ -1,10 +1,14 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
+import { format } from 'date-fns';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ICarDTO } from '../dtos/ICarDTO';
+import { IScheduleByCarDTO } from '../dtos/IScheduleByCarDTO';
 import { api } from '../services/api';
 
 interface CarsProps {
   cars: ICarDTO[];
   loading: boolean;
+  rentCar: (id: string) => void;
 }
 
 const CarsContext = createContext<CarsProps>({} as CarsProps);
@@ -16,15 +20,44 @@ export const CarsProvider: React.FC = ({ children }) => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const response: ICarDTO[] = (await api.get('/cars')).data;
+      const requestCars = api.get('/cars');
+      const requestSchedules = api.get('/schedules_bycars');
 
-      setCars(response);
+      const [respOne, respTwo] = await axios.all([
+        requestCars,
+        requestSchedules,
+      ]);
+
+      const responseCar: ICarDTO[] = respOne.data;
+      const responseSchedule: IScheduleByCarDTO[] = respTwo.data;
+
+      const availableCars = responseCar.filter(car => {
+        const carSchedules = responseSchedule.find(
+          schedule => schedule.id === car.id,
+        );
+
+        if (
+          carSchedules.unavailable_dates.includes(
+            format(new Date(), 'yyyy-MM-dd'),
+          )
+        ) {
+          return false;
+        }
+
+        return true;
+      });
+
+      setCars(availableCars);
       setLoading(false);
     })();
   }, []);
 
+  const rentCar = (id: string) => {
+    setCars(prevState => prevState.filter(car => car.id !== id));
+  };
+
   return (
-    <CarsContext.Provider value={{ cars, loading }}>
+    <CarsContext.Provider value={{ cars, loading, rentCar }}>
       {children}
     </CarsContext.Provider>
   );
