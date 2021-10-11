@@ -1,21 +1,42 @@
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
+import { RectButtonProps } from 'react-native-gesture-handler';
+import { useTheme } from 'styled-components';
 import { Container, Title } from './styles';
 
-interface ButtonProps {
+interface ButtonProps extends RectButtonProps {
   title: string;
   color?: string;
   onPress?: () => void;
   enabled?: boolean;
+  loading?: boolean;
+  light?: boolean;
 }
 
-export const Button = ({ title, enabled = true, ...rest }: ButtonProps) => {
+export const Button = ({
+  title,
+  enabled = true,
+  loading,
+  light,
+  ...rest
+}: ButtonProps) => {
+  const theme = useTheme();
+  const isButtonEnabled = enabled && !loading;
+
   return (
     <Container
-      enabled={enabled}
+      enabled={isButtonEnabled}
+      style={{ opacity: isButtonEnabled ? 1 : 0.5 }}
       {...rest}
-      style={{ opacity: enabled ? 1 : 0.5 }}
     >
-      <Title>{title}</Title>
+      {loading ? (
+        <ActivityIndicator
+          size='small'
+          color={light ? theme.colors.header : theme.colors.shape}
+        />
+      ) : (
+        <Title light={light}>{title}</Title>
+      )}
     </Container>
   );
 };

@@ -6,7 +6,7 @@
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "react-native start",
-    "server": "json-server ./src/services/server.json -H 192.168.2.11 -d 750 -w -p 3333"
+    "server": "json-server ./src/services/server.json -H 192.168.2.12 -d 750 -w -p 3333"
   },
   "dependencies": {
     "@expo-google-fonts/archivo": "^0.2.0",
@@ -38,13 +38,15 @@
     "react-native-screens": "~3.4.0",
     "react-native-svg": "12.1.1",
     "react-native-svg-transformer": "^0.14.3",
+    "react-native-toast-message": "^1.6.0",
     "react-native-unimodules": "~0.14.5",
     "react-native-web": "~0.13.12",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.1",
+    "yup": "^0.32.10"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
-    "@types/react": "~16.9.35",
+    "@types/react": "^17.0.27",
     "@types/react-native": "~0.63.2",
     "@types/react-native-calendars": "^1.1264.2",
     "@types/styled-components-react-native": "^5.1.1",

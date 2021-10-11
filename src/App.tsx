@@ -14,6 +14,7 @@ import 'react-native-gesture-handler';
 import { Routes } from './routes';
 import { CustomThemeProvider } from './styles/theme';
 import { HooksProvider } from './hooks';
+import Toast from 'react-native-toast-message';
 
 export const App = () => {
   const [isFontsLoaded] = useFonts({
@@ -37,6 +38,7 @@ export const App = () => {
       <CustomThemeProvider>
         <HooksProvider>
           <Routes />
+          <Toast ref={ref => Toast.setRef(ref)} />
         </HooksProvider>
       </CustomThemeProvider>
     </SafeAreaView>

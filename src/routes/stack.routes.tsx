@@ -6,6 +6,7 @@ import { SchedulingComplete } from '../screens/SchedulingComplete';
 import { SchedulingDetails } from '../screens/SchedulingDetails';
 import { CarDetails } from '../screens/CarDetails';
 import { MyCars } from '../screens/MyCars';
+import { SignIn } from '../screens/SignIn';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -18,6 +19,7 @@ export const StackRoutes = () => {
       <Screen name='SchedulingDetails' component={SchedulingDetails} />
       <Screen name='SchedulingComplete' component={SchedulingComplete} />
       <Screen name='MyCars' component={MyCars} />
+      <Screen name='SignIn' component={SignIn} />
     </Navigator>
   );
 };
