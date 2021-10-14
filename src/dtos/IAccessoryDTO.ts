@@ -8,6 +8,8 @@ export type IAccessoryTypes =
   | 'seats';
 
 export interface IAccessoryDTO {
+  id: string;
   type: IAccessoryTypes;
   name: string;
+  car_id: string;
 }

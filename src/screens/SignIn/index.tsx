@@ -7,18 +7,21 @@ import * as Yup from 'yup';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { StatusBar } from '../../components/StatusBar';
+import { useAuth } from '../../hooks/auth';
 import { toast } from '../../utils/toast';
 import { Container, Footer, Form, Header, SubTitle, Title } from './styles';
 
 export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
-
   const theme = useTheme();
+  const { signIn } = useAuth();
 
   const handleSignIn = async () => {
+    setLoading(true);
     try {
       const schema = Yup.object().shape({
         email: Yup.string()
@@ -29,20 +32,24 @@ export const SignIn = () => {
 
       await schema.validate({ email, password });
 
-      throw new Error();
+      await signIn({
+        email,
+        password,
+        callbackFunction: () => setLoading(false),
+      });
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
-        toast.error({
+        setLoading(false);
+        return toast.error({
           title: 'Campo inválido!',
           body: err.message,
         });
       } else {
-        toast.error({
+        return toast.error({
           title: 'Erro na autenticação!',
           body: 'Ocorreu um erro ao fazer login, verifique as credenciais.',
         });
       }
-      return;
     }
   };
 
@@ -94,7 +101,7 @@ export const SignIn = () => {
               title='Criar conta gratuita'
               onPress={handleNewAccount}
               light
-              loading={false}
+              loading={loading}
               color={theme.colors.background_secondary}
               style={{ marginTop: 8 }}
             />

@@ -42,8 +42,7 @@ export const MyCars = () => {
 
   useEffect(() => {
     (async () => {
-      const response = (await api.get('/schedules_byuser?user_id=1'))
-        .data as IScheduleByUserDTO[];
+      const response = (await api.get('/rentals')).data as IScheduleByUserDTO[];
 
       setSchedules(response);
       setLoading(false);

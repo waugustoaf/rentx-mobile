@@ -21,7 +21,7 @@ interface CarProps extends RectButtonProps {
 }
 
 export const Car = ({
-  car: { brand, name, rent, type, thumbnail },
+  car: { brand, name, period, price, fuel_type, thumbnail },
   ...rest
 }: CarProps) => {
   return (
@@ -32,11 +32,11 @@ export const Car = ({
 
         <About>
           <Rent>
-            <Period>{rent.period}</Period>
-            <Price>{rent.price}</Price>
+            <Period>{period}</Period>
+            <Price>{price}</Price>
           </Rent>
 
-          <Type>{type === 'electric' ? <EnergySVG /> : <FuelSVG />}</Type>
+          <Type>{fuel_type === 'electric' ? <EnergySVG /> : <FuelSVG />}</Type>
         </About>
       </Details>
 

@@ -72,15 +72,15 @@ export const CarDetails = () => {
           </Description>
 
           <Rent>
-            <Period>{car.rent.period}</Period>
-            <Price>{car.rent.price}</Price>
+            <Period>{car.period}</Period>
+            <Price>{car.price}</Price>
           </Rent>
         </Details>
 
         <Accessories>
           {car.accessories.map(accessory => (
             <Accessory
-              key={accessory.type}
+              key={accessory.id}
               icon={svg[accessory.type]}
               name={accessory.name}
             />

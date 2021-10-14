@@ -1,13 +1,15 @@
-import React from 'react';
-import { StackRoutes } from './stack.routes';
 import { NavigationContainer } from '@react-navigation/native';
-import { SignIn } from '../screens/SignIn';
-import { SignUpFirstStep } from '../screens/SignUp/FirstStep';
+import React from 'react';
+import { useAuth } from '../hooks/auth';
+import { AppTabRoutes } from './app.tab.routes';
+import { AuthRoutes } from './auth.routes';
 
 export const Routes = () => {
+  const { user } = useAuth();
+  1;
   return (
     <NavigationContainer>
-      <StackRoutes />
+      {user?.id ? <AppTabRoutes /> : <AuthRoutes />}
     </NavigationContainer>
   );
 };

@@ -77,9 +77,9 @@ export const SchedulingDetails = () => {
   const { car, endDate, startDate } = route.params as ReceivedProps;
   const { rentCar } = useCars();
   const daysRented = differenceInDays(new Date(endDate), new Date(startDate));
-  const total = daysRented * car.rent.price;
+  const total = daysRented * car.price;
 
-  const carsImages = [car.thumbnail];
+  const carsImages = car.photos;
 
   const eachDay = eachDayOfInterval({
     start: getPlatformDate(new Date(startDate)),
@@ -194,8 +194,8 @@ export const SchedulingDetails = () => {
             </Description>
 
             <Rent>
-              <Period>{car.rent.period}</Period>
-              <Price>{`R$ ${car.rent.price}`}</Price>
+              <Period>{car.period}</Period>
+              <Price>{`R$ ${car.price}`}</Price>
             </Rent>
           </Details>
 
@@ -238,7 +238,7 @@ export const SchedulingDetails = () => {
           <RentalPrice>
             <RentalPriceLabel>TOTAL</RentalPriceLabel>
             <RentalPriceDetails>
-              <RentalPriceQuota>{`R$ ${car.rent.price} x${daysRented} diárias`}</RentalPriceQuota>
+              <RentalPriceQuota>{`R$ ${car.price} x${daysRented} diárias`}</RentalPriceQuota>
               <RentalPriceTotal>{`R$ ${total}`}</RentalPriceTotal>
             </RentalPriceDetails>
           </RentalPrice>

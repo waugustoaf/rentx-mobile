@@ -11,6 +11,7 @@ import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { Button } from '../../../components/Button';
 import { Input } from '../../../components/Input';
+import { api } from '../../../services/api';
 import { toast } from '../../../utils/toast';
 import {
   Container,
@@ -33,12 +34,15 @@ interface ReceivedProps {
 export const SignUpSecondStep = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
   const route = useRoute();
   const theme = useTheme();
 
-  const { user } = route.params as ReceivedProps;
+  const {
+    user: { name, email, driverLicense },
+  } = route.params as ReceivedProps;
 
   const handleGoBack = () => {
     if (navigation.canGoBack()) {
@@ -49,6 +53,8 @@ export const SignUpSecondStep = () => {
   };
 
   const handleRegister = async () => {
+    setLoading(true);
+
     try {
       const schema = Yup.object().shape({
         confirmPassword: Yup.string()
@@ -60,7 +66,18 @@ export const SignUpSecondStep = () => {
       const data = { password, confirmPassword };
       await schema.validate(data);
 
-      console.log(data);
+      await api.post('/users', {
+        name,
+        email,
+        password,
+        driver_license: driverLicense,
+      });
+
+      navigation.navigate('Confirmation', {
+        title: 'Conta criada!',
+        message: `Agora é so fazer login\ne aproveitar`,
+        nextScreen: 'SignIn',
+      });
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         return toast.error({
@@ -68,18 +85,16 @@ export const SignUpSecondStep = () => {
           body: err.message,
         });
       } else {
+        console.log(err);
+
         return toast.error({
           title: 'Houve um erro',
           body: 'Não foi possível registrar',
         });
       }
+    } finally {
+      setLoading(false);
     }
-
-    navigation.navigate('Confirmation', {
-      title: 'Conta criada!',
-      message: `Agora é so fazer login\ne aproveitar`,
-      nextScreen: 'SignIn',
-    });
   };
 
   return (
@@ -124,6 +139,7 @@ export const SignUpSecondStep = () => {
             title='Cadastrar'
             color={theme.colors.success}
             onPress={handleRegister}
+            loading={loading}
           />
         </Container>
       </TouchableWithoutFeedback>

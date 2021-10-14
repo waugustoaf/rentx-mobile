@@ -20,36 +20,11 @@ export const CarsProvider: React.FC = ({ children }) => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const requestCars = api.get('/cars');
-      const requestSchedules = api.get('/schedules_bycars');
+      const response = await api.get('/cars');
 
-      const [respOne, respTwo] = await axios.all([
-        requestCars,
-        requestSchedules,
-      ]);
+      const responseCars = response.data;
 
-      const responseCar: ICarDTO[] = respOne.data;
-      const responseSchedule: IScheduleByCarDTO[] = respTwo.data;
-
-      const availableCars = responseCar.filter(car => {
-        const carSchedules = responseSchedule.find(
-          schedule => schedule.id === car.id,
-        );
-
-        if (
-          carSchedules &&
-          carSchedules.unavailable_dates &&
-          carSchedules.unavailable_dates.includes(
-            format(new Date(), 'yyyy-MM-dd'),
-          )
-        ) {
-          return false;
-        }
-
-        return true;
-      });
-
-      setCars(availableCars);
+      setCars(responseCars);
       setLoading(false);
     })();
   }, []);

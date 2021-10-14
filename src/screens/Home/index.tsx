@@ -9,14 +9,7 @@ import { Car } from '../../components/Car';
 import { Load } from '../../components/Load';
 import { ICarDTO } from '../../dtos/ICarDTO';
 import { useCars } from '../../hooks/cars';
-import {
-  CarList,
-  Container,
-  Header,
-  HeaderContent,
-  MyCarsButton,
-  TotalCars,
-} from './styles';
+import { CarList, Container, Header, HeaderContent, TotalCars } from './styles';
 
 export const Home = () => {
   const navigation = useNavigation();
@@ -26,10 +19,6 @@ export const Home = () => {
 
   const handleNavigateCarDetails = (car: ICarDTO) => {
     navigation.navigate('CarDetails', car);
-  };
-
-  const handleOpenMyCars = () => {
-    navigation.navigate('MyCars');
   };
 
   return (
@@ -57,10 +46,6 @@ export const Home = () => {
           keyExtractor={item => item.id}
         />
       )}
-
-      <MyCarsButton onPress={handleOpenMyCars}>
-        <Ionicons name='ios-car-sport' size={32} color={theme.colors.shape} />
-      </MyCarsButton>
     </Container>
   );
 };
