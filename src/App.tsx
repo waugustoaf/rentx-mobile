@@ -1,6 +1,3 @@
-import React from 'react';
-import 'intl';
-import 'intl/locale-data/jsonp/pt-BR';
 import {
   Archivo_400Regular,
   Archivo_500Medium,
@@ -9,12 +6,15 @@ import {
 import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
+import React from 'react';
 import { SafeAreaView } from 'react-native';
 import 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
+import { HooksProvider } from './hooks';
 import { Routes } from './routes';
 import { CustomThemeProvider } from './styles/theme';
-import { HooksProvider } from './hooks';
-import Toast from 'react-native-toast-message';
 
 export const App = () => {
   const [isFontsLoaded] = useFonts({

@@ -134,7 +134,11 @@ export const SchedulingDetails = () => {
         ) {
           rentCar(car.id);
         }
-        navigation.navigate('SchedulingComplete');
+        navigation.navigate('Confirmation', {
+          title: 'Carro alugado!',
+          message: `Agora você só precisa ir\naté a concessionária da RENTX\npegar o seu automóvel`,
+          nextScreen: 'Home',
+        });
       })
       .catch(err => {
         console.log(err);

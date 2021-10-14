@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core';
 import React, { useState } from 'react';
 import { Keyboard, KeyboardAvoidingView } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -12,6 +13,8 @@ import { Container, Footer, Form, Header, SubTitle, Title } from './styles';
 export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigation = useNavigation();
 
   const theme = useTheme();
 
@@ -43,6 +46,10 @@ export const SignIn = () => {
     }
   };
 
+  const handleNewAccount = () => {
+    navigation.navigate('SignUpFirstStep');
+  };
+
   return (
     <KeyboardAvoidingView
       behavior='position'
@@ -50,7 +57,7 @@ export const SignIn = () => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
-          <StatusBar />
+          <StatusBar darkContent />
           <Header>
             <Title>Estamos{'\n'}quase lá.</Title>
             <SubTitle>
@@ -85,7 +92,7 @@ export const SignIn = () => {
             <Button title='Login' onPress={handleSignIn} loading={false} />
             <Button
               title='Criar conta gratuita'
-              onPress={() => {}}
+              onPress={handleNewAccount}
               light
               loading={false}
               color={theme.colors.background_secondary}
