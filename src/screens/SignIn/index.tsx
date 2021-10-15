@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/core';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Keyboard, KeyboardAvoidingView } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useTheme } from 'styled-components';
@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { StatusBar } from '../../components/StatusBar';
+import { database } from '../../database';
 import { useAuth } from '../../hooks/auth';
 import { toast } from '../../utils/toast';
 import { Container, Footer, Form, Header, SubTitle, Title } from './styles';
@@ -19,6 +20,16 @@ export const SignIn = () => {
   const navigation = useNavigation();
   const theme = useTheme();
   const { signIn } = useAuth();
+
+  useEffect(() => {}, [
+    (async () => {
+      const userCollection = database.get('users');
+
+      const users = await userCollection.query().fetch();
+
+      console.log(users);
+    })(),
+  ]);
 
   const handleSignIn = async () => {
     setLoading(true);
