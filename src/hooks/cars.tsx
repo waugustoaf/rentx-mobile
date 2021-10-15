@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ICarDTO } from '../dtos/ICarDTO';
 import { IScheduleByCarDTO } from '../dtos/IScheduleByCarDTO';
 import { api } from '../services/api';
+import { toast } from '../utils/toast';
 
 interface CarsProps {
   cars: ICarDTO[];
@@ -20,12 +21,20 @@ export const CarsProvider: React.FC = ({ children }) => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const response = await api.get('/cars');
+      try {
+        const response = await api.get('/cars');
 
-      const responseCars = response.data;
+        const responseCars = response.data;
 
-      setCars(responseCars);
-      setLoading(false);
+        setCars(responseCars);
+      } catch (err) {
+        toast.error({
+          title: 'Houve um erro',
+          body: 'Não foi possível listar os carros.',
+        });
+      } finally {
+        setLoading(false);
+      }
     })();
   }, []);
 
