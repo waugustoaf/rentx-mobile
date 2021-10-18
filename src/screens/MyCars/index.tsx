@@ -26,6 +26,7 @@ import {
   EmptyItemsView,
   EmptyItemsText,
 } from './styles';
+import { toast } from '../../utils/toast';
 
 export const MyCars = () => {
   const [schedules, setSchedules] = useState<IScheduleByUserDTO[]>([]);
@@ -41,12 +42,33 @@ export const MyCars = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      const response = (await api.get('/rentals')).data as IScheduleByUserDTO[];
+    let isActive = true;
 
-      setSchedules(response);
-      setLoading(false);
+    (async () => {
+      if (isActive) {
+        setLoading(true);
+
+        try {
+          const response = (await api.get('/rentals'))
+            .data as IScheduleByUserDTO[];
+
+          setSchedules(response);
+          setLoading(false);
+        } catch (err) {
+          toast.error({
+            title: 'Houve um erro',
+            body: 'Não foi possível carregar seus carros.',
+          });
+
+          setLoading(false);
+          navigation.navigate('Home');
+        }
+      }
     })();
+
+    return () => {
+      isActive = false;
+    };
   }, []);
 
   return (

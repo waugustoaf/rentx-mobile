@@ -7,13 +7,14 @@ import { TextInputProps } from 'react-native';
 interface InputProps extends TextInputProps {
   iconName: React.ComponentProps<typeof Feather>['name'];
   password?: boolean;
-  isFilled: boolean;
+  isFilled?: boolean;
 }
 
 export const Input = ({
   iconName,
   password,
-  isFilled,
+  isFilled = false,
+  autoCorrect,
   ...rest
 }: InputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -43,6 +44,7 @@ export const Input = ({
         onFocus={toggleFocused}
         onBlur={toggleFocused}
         secureTextEntry={password && !isPasswordVisible}
+        autoCorrect={autoCorrect || password}
       />
 
       {password && (

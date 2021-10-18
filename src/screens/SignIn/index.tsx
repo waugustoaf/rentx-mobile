@@ -38,8 +38,8 @@ export const SignIn = () => {
         callbackFunction: () => setLoading(false),
       });
     } catch (err) {
+      setLoading(false);
       if (err instanceof Yup.ValidationError) {
-        setLoading(false);
         return toast.error({
           title: 'Campo inválido!',
           body: err.message,
@@ -96,7 +96,7 @@ export const SignIn = () => {
           </Form>
 
           <Footer>
-            <Button title='Login' onPress={handleSignIn} loading={false} />
+            <Button title='Login' onPress={handleSignIn} loading={loading} />
             <Button
               title='Criar conta gratuita'
               onPress={handleNewAccount}
