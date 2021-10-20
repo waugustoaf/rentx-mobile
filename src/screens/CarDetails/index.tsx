@@ -1,32 +1,32 @@
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react';
-import { Accessory } from '../../components/Accessory';
-import { BackButton } from '../../components/BackButton';
-import { ImageSlider } from '../../components/ImageSlider';
-import speedSvg from '../../assets/speed.svg';
 import accelerationSvg from '../../assets/acceleration.svg';
+import exchangeSvg from '../../assets/exchange.svg';
 import forceSvg from '../../assets/force.svg';
 import fuelSvg from '../../assets/fuel.svg';
-import exchangeSvg from '../../assets/exchange.svg';
 import peopleSvg from '../../assets/people.svg';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import speedSvg from '../../assets/speed.svg';
+import { Accessory } from '../../components/Accessory';
+import { BackButton } from '../../components/BackButton';
+import { Button } from '../../components/Button';
+import { ImageSlider } from '../../components/ImageSlider';
+import { ICarDTO } from '../../dtos/ICarDTO';
 import {
+  About,
   Accessories,
+  Brand,
   CarImages,
   Container,
-  Header,
   Content,
-  Details,
   Description,
-  Brand,
+  Details,
+  Footer,
+  Header,
   Name,
-  Rent,
   Period,
   Price,
-  About,
-  Footer,
+  Rent,
 } from './styles';
-import { Button } from '../../components/Button';
-import { ICarDTO } from '../../dtos/ICarDTO';
 
 const svg = {
   speed: speedSvg,

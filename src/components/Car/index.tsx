@@ -15,9 +15,10 @@ import {
   Type,
 } from './styles';
 import { RectButtonProps } from 'react-native-gesture-handler';
+import { Car as CarModel } from '../../database/models/Car';
 
 interface CarProps extends RectButtonProps {
-  car: ICarDTO;
+  car: CarModel;
 }
 
 export const Car = ({

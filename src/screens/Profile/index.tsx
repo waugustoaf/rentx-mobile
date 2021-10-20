@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
 import React, { useState } from 'react';
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -52,7 +53,18 @@ export const Profile = () => {
   };
 
   const handleSignOut = async () => {
-    await signOut();
+    Alert.alert(
+      'Tem certeza?',
+      'Se você sair, irá precisar de internet para conectar-se novamente.',
+      [
+        { text: 'Cancelar', style: 'cancel', onPress: () => {} },
+        {
+          text: 'Sair',
+          style: 'default',
+          onPress: async () => await signOut(),
+        },
+      ],
+    );
   };
 
   const handleGoData = () => {

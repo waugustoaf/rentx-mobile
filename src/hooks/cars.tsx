@@ -1,13 +1,10 @@
-import axios from 'axios';
-import { format } from 'date-fns';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { ICarDTO } from '../dtos/ICarDTO';
-import { IScheduleByCarDTO } from '../dtos/IScheduleByCarDTO';
-import { api } from '../services/api';
+import { database } from '../database';
+import { Car } from '../database/models/Car';
 import { toast } from '../utils/toast';
 
 interface CarsProps {
-  cars: ICarDTO[];
+  cars: Car[];
   loading: boolean;
   rentCar: (id: string) => void;
 }
@@ -15,18 +12,17 @@ interface CarsProps {
 const CarsContext = createContext<CarsProps>({} as CarsProps);
 
 export const CarsProvider: React.FC = ({ children }) => {
-  const [cars, setCars] = useState<ICarDTO[]>([]);
+  const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       setLoading(true);
       try {
-        const response = await api.get('/cars');
+        const carCollection = database.get<Car>('cars');
+        const currentCars = await carCollection.query().fetch();
 
-        const responseCars = response.data;
-
-        setCars(responseCars);
+        setCars(currentCars);
       } catch (err) {
         toast.error({
           title: 'Houve um erro',
